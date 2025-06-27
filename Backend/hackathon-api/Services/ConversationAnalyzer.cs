@@ -15,6 +15,7 @@ public class ConversationAnalyzer : IConversationAnalyzer
     
     public async Task<bool> IsSuspicious(IConversation conversation)
     {
+        var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower };
         var content = string.Join('\n', conversation.Sentences);
         var data = new ChatCompletionRequest(
             Model: "gpt-4.1-mini",
@@ -29,7 +30,7 @@ public class ConversationAnalyzer : IConversationAnalyzer
                 )
             }
         );
-        var body = JsonSerializer.Serialize(data, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower});
+        var body = JsonSerializer.Serialize(data, jsonOptions);
 
         var request = new HttpRequestMessage
         {
@@ -45,8 +46,8 @@ public class ConversationAnalyzer : IConversationAnalyzer
         }
         
         var responseBody = await response.Content.ReadAsStringAsync();
-        var results = JsonSerializer.Deserialize<GenAIResponse>(responseBody);
-        var rating = JsonSerializer.Deserialize<ConversationRating>(results?.Choices.FirstOrDefault()?.Message.Content);
+        var results = JsonSerializer.Deserialize<GenAIResponse>(responseBody, jsonOptions);
+        var rating = JsonSerializer.Deserialize<ConversationRating>(results?.Choices.FirstOrDefault()?.Message.Content, jsonOptions);
 
         return rating?.Suspicious ?? false;
     }

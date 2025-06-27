@@ -38,11 +38,6 @@ public class ConversationReader(INotificationService notificationService, IConve
                     notificationService.FlagConversation(conversation);
                     break;
                 }
-                
-                var timePassed = startTime - DateTime.Now;
-                var waitTime = (80 * line.Length) - timePassed.TotalMilliseconds;
-                
-                if (waitTime > 0) Thread.Sleep((int)waitTime);
             }
 
             conversation.Finish();
