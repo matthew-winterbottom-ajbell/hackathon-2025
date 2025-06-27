@@ -2,6 +2,8 @@ namespace hackathon_api.Services;
 
 public interface IConversation : IObservable<IReadOnlyList<string>>
 {
+    public string Id { get; }
+    
     /// <summary>
     /// Retrieves the up-to-date transcript of an ongoing conversation
     /// </summary>

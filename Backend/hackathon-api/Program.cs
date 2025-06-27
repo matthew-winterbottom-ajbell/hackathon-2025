@@ -29,6 +29,11 @@ app.MapPost("/api/v1/conversations/debugcreate", async (DebugCreateRequest reque
     return new DebugCreateResponse(newId);
 });
 
+app.MapGet("/api/v1/conversations", (IConversationReader conversationReader) =>
+{
+    return conversationReader.GetConversations().Select(c => new ConversationListing(c.Id)).ToList();
+});
+
 app.MapGet("/api/v1/conversations/{id}", (string id, IConversationReader conversationReader) =>
 {
     var conversation = conversationReader.GetConversation(id);
@@ -42,6 +47,8 @@ app.MapHub<ConversationHub>("/api/v1/conversations/{id}/live")
     .WithOpenApi();
 
 app.Run();
+
+record ConversationListing(string Id);
 
 record DebugCreateRequest(string FileId);
 record DebugCreateResponse(string Id);

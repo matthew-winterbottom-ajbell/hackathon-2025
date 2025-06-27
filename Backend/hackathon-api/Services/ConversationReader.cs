@@ -9,11 +9,16 @@ public class ConversationReader() : IConversationReader
         return _conversations.GetValueOrDefault(id);
     }
 
+    public List<IConversation> GetConversations()
+    {
+        return _conversations.Values.ToList<IConversation>();
+    }
+
     public async Task<string> LoadConversation(string id)
     {
-        var conversation = new Conversation();
-        var content = await File.ReadAllLinesAsync($"Data/{id}.txt");
         var newId = Guid.NewGuid().ToString();
+        var conversation = new Conversation(newId);
+        var content = await File.ReadAllLinesAsync($"Data/{id}.txt");
         _conversations.Add(newId, conversation);
         
         _ = Task.Run(() =>

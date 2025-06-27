@@ -2,13 +2,16 @@ namespace hackathon_api.Services;
 
 public class Conversation : IConversation
 {
+    public string Id { get; }
+    
     private readonly List<string> _lines;
     public IReadOnlyList<string> Lines { get; }
     
     private readonly List<IObserver<IReadOnlyList<string>>> _observers;
 
-    public Conversation()
+    public Conversation(string id)
     {
+        Id = id;
         _lines = [];
         _observers = [];
         Lines = _lines.AsReadOnly();

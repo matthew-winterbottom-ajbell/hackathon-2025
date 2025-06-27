@@ -8,6 +8,8 @@ public interface IConversationReader
     /// <param name="id"></param>
     /// <returns></returns>
     public IConversation? GetConversation(string id);
+    
+    public List<IConversation> GetConversations();
 
     /// <summary>
     /// Starts loading a conversation
