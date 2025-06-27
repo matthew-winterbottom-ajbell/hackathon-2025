@@ -109,7 +109,15 @@ const Conversation = () => {
             <h1 className="text-3xl font-bold mb-6 text-center text-white">Agent call details</h1>
             <div className="flex flex-row space-x-5">
                 <div
-                    className="bg-slate-100 p-8 rounded-2xl shadow-lg border border-slate-100 self-start w-80 flex-shrink-0">
+                    className={`bg-slate-100 p-8 rounded-2xl shadow-lg border self-start w-80 flex-shrink-0 relative ${
+                        conversation.flagged ? "border-red-500" : "border-slate-100"
+                    }`}
+                >
+                    {conversation.flagged && (
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center bg-red-500 text-white px-4 py-1 rounded-full shadow font-semibold text-sm z-10">
+                            <span className="mr-2">⚠️</span> Flagged
+                        </div>
+                    )}
                     <div className="mb-4 flex flex-col gap-2">
                         <InformationRow keyString={"Call ID:"} value={conversation.id}/>
                         <InformationRow keyString="Customer:" value={conversation.customer}/>
