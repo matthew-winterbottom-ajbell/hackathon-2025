@@ -3,6 +3,7 @@ import './App.css'
 import Home from './pages/home';
 import Conversation from "./pages/conversation.tsx";
 import BotConversation from "./pages/botConversation.tsx";
+import ajbellLogo from './assets/ajbell-logo.png';
 
 function Breadcrumbs() {
     const location = useLocation();
@@ -25,6 +26,9 @@ function Breadcrumbs() {
 function App() {
     return (
         <BrowserRouter>
+            <Link to="/" >
+                <img src={ajbellLogo} alt="AJ Bell Logo" className="h-10 mr-4" />
+            </Link>
             <Breadcrumbs />
             <Routes>
                 <Route path="/" element={<Home />} />
