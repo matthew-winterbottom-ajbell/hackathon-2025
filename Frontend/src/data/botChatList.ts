@@ -1,9 +1,9 @@
-import type {BotChat} from "../types/chat.ts";
+import type { Conversation } from "../types/conversation.ts";
 
-export const calls: BotChat[] = [{
+export const botConversations: Conversation[] = [{
         id: "chat_001",
-        person: "Alex Johnson",
-        duration: "00:04:32",
+        customer: "Alex Johnson",
+        startTime: new Date(),
         flagged: false,
         agentType: "bot",
         sentences: [
@@ -12,13 +12,13 @@ export const calls: BotChat[] = [{
             { from: "human", text: "Mostly to grow my wealth. I’ve heard about stocks and ETFs—what’s the difference?" },
             { from: "bot", text: "Stocks are shares of individual companies. ETFs are baskets of investments, offering more diversification." },
             { from: "human", text: "Is it risky to start with stocks?" },
-            { from: "bot", text: "Stocks can be volatile. ETFs are often preferred by beginners for their stability." }
+            { from: "bot", text: "Stocks can be volatile. ETFs are often preferred by beginners for their stability." },
         ]
     },
     {
         id: "chat_002",
-        person: "Priya Desai",
-        duration: "00:03:15",
+        customer: "Priya Desai",
+        startTime: new Date(),
         flagged: false,
         agentType: "bot",
         sentences: [
@@ -30,8 +30,8 @@ export const calls: BotChat[] = [{
     },
     {
         id: "chat_003",
-        person: "Mark Evans",
-        duration: "00:02:47",
+        customer: "Mark Evans",
+        startTime: new Date(),
         flagged: true,
         agentType: "bot",
         sentences: [
@@ -43,8 +43,8 @@ export const calls: BotChat[] = [{
     },
     {
         id: "chat_004",
-        person: "Liam Chen",
-        duration: "00:05:01",
+        customer: "Liam Chen",
+        startTime: new Date(),
         flagged: false,
         agentType: "bot",
         sentences: [
@@ -58,8 +58,8 @@ export const calls: BotChat[] = [{
     },
     {
         id: "chat_005",
-        person: "Susan Blake",
-        duration: "00:03:58",
+        customer: "Susan Blake",
+        startTime: new Date(),
         flagged: false,
         agentType: "bot",
         sentences: [

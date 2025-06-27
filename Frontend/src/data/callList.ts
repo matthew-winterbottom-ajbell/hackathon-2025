@@ -1,26 +1,39 @@
-import type { Call } from "../types/call.ts";
+import type {Conversation} from "../types/conversation.ts";
 
-export const calls: Call[] = [
+export const conversations: Conversation[] = [
     {
         id: "1",
-        caller: "John Doe",
+        customer: "John Doe",
         agent: "Jane Smith",
         agentType: "human",
-        duration: "5:23",
+        startTime: getRandomPastTime(),
         flagged: false,
         sentences: [
             { from: "human", text: "Hi, I’d like to understand how to diversify my portfolio." },
             { from: "bot", text: "Sure, diversification means spreading your investments across different assets to reduce risk." },
             { from: "human", text: "Got it. Can I do that automatically on your platform?" },
-            { from: "bot", text: "Yes, we offer automated portfolio rebalancing based on your risk profile." }
+            { from: "bot", text: "Yes, we offer automated portfolio rebalancing based on your risk profile." },
+            { from: "human", text: "What is a risk profile?" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
+            { from: "bot", text: "A risk profile represents your personal appetite for risk (losing money)" },
         ]
     },
     {
         id: "2",
-        caller: "Alice Johnson",
+        customer: "Alice Johnson",
         agent: "Bob Brown",
         agentType: "human",
-        duration: "3:45",
+        startTime: getRandomPastTime(),
         flagged: true,
         sentences: [
             { from: "human", text: "I need to move a large amount of money quickly. Can you bypass the verification?" },
@@ -31,10 +44,10 @@ export const calls: Call[] = [
     },
     {
         id: "3",
-        caller: "Charlie White",
+        customer: "Charlie White",
         agent: "Diana Green",
         agentType: "human",
-        duration: "2:15",
+        startTime: getRandomPastTime(),
         flagged: false,
         sentences: [
             { from: "human", text: "Can I invest in green energy funds through your platform?" },
@@ -44,10 +57,10 @@ export const calls: Call[] = [
     },
     {
         id: "4",
-        caller: "Eve Black",
+        customer: "Eve Black",
         agent: "Frank Blue",
         agentType: "human",
-        duration: "4:30",
+        startTime: getRandomPastTime(),
         flagged: false,
         sentences: [
             { from: "human", text: "I’m thinking of retiring early. Can I withdraw from my ISA without penalties?" },
@@ -57,10 +70,10 @@ export const calls: Call[] = [
     },
     {
         id: "5",
-        caller: "Grace Yellow",
+        customer: "Grace Yellow",
         agent: "Hank Purple",
         agentType: "human",
-        duration: "6:10",
+        startTime: getRandomPastTime(),
         flagged: true,
         sentences: [
             { from: "human", text: "I need to create multiple accounts under different names. Can you help?" },
@@ -70,3 +83,14 @@ export const calls: Call[] = [
         ]
     }
 ];
+
+// Utility function to get a Date object between 3 and 5 minutes ago
+function getRandomPastTime() {
+    const now = new Date();
+    const minutesAgo = Math.floor(Math.random() * (5 - 3 + 1)) + 3; // 3 to 5 minutes
+    const secondsAgo = Math.floor(Math.random() * 60); // 0 to 59 seconds
+    const millisecondsAgo = Math.floor(Math.random() * 1000); // 0 to 999 ms
+
+    return new Date(now.getTime() - (minutesAgo * 60 * 1000 + secondsAgo * 1000 + millisecondsAgo));
+}
+
