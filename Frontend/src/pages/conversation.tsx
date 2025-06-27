@@ -2,15 +2,26 @@ import {useParams} from "react-router-dom";
 import {getTranspiredTimeInMinutes} from "../helpers/time.ts";
 import Button from "../components/Button.tsx";
 import InformationRow from "../components/InformationRow.tsx";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import {useConversationHub} from "../hooks/useConversationHub.tsx";
 import type {ConversationType} from "../types/conversation.ts";
+
+// Skeleton loader component
+const SkeletonSentence = () => (
+    <div className="animate-pulse flex space-x-4 mb-2">
+        <div className="rounded bg-gray-300 h-4 w-full"></div>
+    </div>
+);
 
 const Conversation = () => {
     const {id} = useParams();
 
     const [conversation, setConversation] = useState<ConversationType>();
     const [liveSentences, setLiveSentences] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
+    const lastMessageTimeRef = useRef<number | null>(null);
+    const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const stopLoadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Fetch conversation data from API
     useEffect(() => {
@@ -30,16 +41,44 @@ const Conversation = () => {
             });
     }, [id]);
 
+    // Skeleton loading logic
+    useEffect(() => {
+        // Start with loading skeleton
+        setLoading(true);
+        lastMessageTimeRef.current = Date.now();
+
+        // If no message comes in 10s, stop loading
+        stopLoadingTimeoutRef.current = setTimeout(() => {
+            setLoading(false);
+        }, 10000);
+
+        return () => {
+            if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
+            if (stopLoadingTimeoutRef.current) clearTimeout(stopLoadingTimeoutRef.current);
+        };
+    }, [id]);
+
     useConversationHub(id, (message: string) => {
-
         if (message) {
-            setLiveSentences(prev => {
+            setLiveSentences(prev => [...prev, message]);
+            setLoading(false);
 
-                return [
-                    ...prev,
-                    message
-                ]
-            });
+            // Clear previous timeouts
+            if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
+            if (stopLoadingTimeoutRef.current) clearTimeout(stopLoadingTimeoutRef.current);
+
+            // Set last message time
+            lastMessageTimeRef.current = Date.now();
+
+            // After 1s, show skeleton again (unless stopped)
+            loadingTimeoutRef.current = setTimeout(() => {
+                setLoading(true);
+
+                // After 10s of no new message, stop skeleton
+                stopLoadingTimeoutRef.current = setTimeout(() => {
+                    setLoading(false);
+                }, 10000);
+            }, 1000);
         }
     });
 
@@ -96,6 +135,12 @@ const Conversation = () => {
                             {liveSentences.map(sentence => (
                                 <div className="text-gray-700">{sentence}</div>
                             ))}
+                            {loading && (
+                                <>
+                                    <SkeletonSentence />
+                                    <SkeletonSentence />
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -105,3 +150,4 @@ const Conversation = () => {
 }
 
 export default Conversation;
+

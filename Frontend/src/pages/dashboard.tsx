@@ -71,7 +71,7 @@ const Dashboard = () => {
         <button
             type="button"
             onClick={onClick(conversation)}
-            className={`hover: cursor-pointer flex flex-col w-auto h-50 space-y-2 border-2 rounded-2xl px-2 py-10 bg-gray-200 shadow-md transition-transform duration-200 transform hover:scale-105 ${
+            className={`hover: cursor-pointer flex flex-col w-auto h-50 space-y-2 border-2 rounded-2xl px-2 py-5 bg-gray-200 shadow-md transition-transform duration-200 transform hover:scale-105 ${
                 conversation.flagged ? "border-red-500" : "border-white"
             }`}
             style={{overflow: 'hidden'}}
@@ -92,19 +92,23 @@ const Dashboard = () => {
 
     return (
         <div className="flex h-[80vh]">
-            <div className="flex-1 flex flex-col items-center justify-center border-r border-gray-300">
-                <h1 className="text-xl mb-4">Agent calls</h1>
-                <div className="w-full flex justify-center">
-                    <div className="px-10 py-8 grid grid-cols-1 sm:grid-cols-3 gap-6 overflow-y-auto max-h-[60vh]">
-                        {conversations.filter(x => x.agentType === "human").map(renderCallCard)}
+            <div className="flex-1 flex flex-col border-r border-gray-300">
+                <h1 className="text-xl mb-4 mt-8 text-center">Agent calls</h1>
+                <div className="flex-1 flex flex-col items-center justify-start">
+                    <div className="w-full flex justify-center">
+                        <div className="px-10 py-8 grid grid-cols-1 sm:grid-cols-3 gap-6 overflow-y-auto max-h-[60vh]">
+                            {conversations.filter(x => x.agentType === "human").map(renderCallCard)}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="flex-1 flex flex-col items-center justify-center">
-                <h1 className="text-xl mb-4">Chatbot conversations</h1>
-                <div className="w-full flex justify-center">
-                    <div className="px-10 py-8 grid grid-cols-1 sm:grid-cols-3 gap-6 overflow-y-auto max-h-[60vh]">
-                        {conversations.filter(x => x.agentType === "bot").map(renderCallCard)}
+            <div className="flex-1 flex flex-col">
+                <h1 className="text-xl mb-4 mt-8 text-center">Chatbot conversations</h1>
+                <div className="flex-1 flex flex-col items-center justify-start">
+                    <div className="w-full flex justify-center">
+                        <div className="px-10 py-8 grid grid-cols-1 sm:grid-cols-3 gap-6 overflow-y-auto max-h-[60vh]">
+                            {conversations.filter(x => x.agentType === "bot").map(renderCallCard)}
+                        </div>
                     </div>
                 </div>
             </div>
