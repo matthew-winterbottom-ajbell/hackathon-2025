@@ -1,0 +1,17 @@
+AGENT: Hello, you're through to AJ Bell. How can I help?
+CUSTOMER: Hello, I’d like to open a new account, please.
+AGENT: Of course, I can help you with that. Before we proceed, I’ll need to ask a couple of security questions to confirm your identity. Can you start by providing your date of birth?
+CUSTOMER: Yes, it's the 5th of March, 1971.
+AGENT: Thank you. And can you confirm the first line of your address, please?
+CUSTOMER: Sure, it’s 42 Meadow Crescent.
+AGENT: Perfect, thank you. You’ve passed our security checks. What type of account are you looking to open today?
+CUSTOMER: I’m looking to open a Stocks and Shares ISA.
+AGENT: Great choice. I can guide you through the process now or send you a link to complete the application online — which would you prefer?
+CUSTOMER: I’d prefer to do it online, if that’s all right.
+AGENT: Absolutely, I’ll send a secure link to the email address we have on file. It’ll take you straight to the ISA application page.
+CUSTOMER: That’s perfect, thanks.
+AGENT: No problem at all. Is there anything else I can help you with today?
+CUSTOMER: No, that’s all for now.
+AGENT: All right then. Good luck with the new account, and have a lovely day.
+CUSTOMER: You too, thank you.
+AGENT: Goodbye now.

@@ -1,0 +1,17 @@
+AGENT: Hello, you're through to AJ Bell. How can I help?
+CUSTOMER: Hi there, I’ve made a withdrawal recently and I just wanted to check on the status of it.
+AGENT: Of course, I can help with that. First, I’ll just need to run through some quick security checks. Could you please confirm your date of birth?
+CUSTOMER: Sure, it’s the 12th of June, 1964.
+AGENT: Thank you. And can you also confirm the postcode registered to your account?
+CUSTOMER: Yes, it's M20 5GH.
+AGENT: Great, thanks. You've passed our identification checks. Let me just check your withdrawal for you.
+CUSTOMER: Thank you.
+AGENT: I can see a withdrawal was requested on the 18th of June. It's currently being processed and should reach your nominated bank account within 3 to 5 working days.
+CUSTOMER: Oh, okay. So it should be in by the end of the week?
+AGENT: Yes, that’s correct — by Friday at the latest. If you don’t see it by then, give us a call and we’ll chase it up for you.
+CUSTOMER: All right, that’s helpful. Thanks very much.
+AGENT: You’re very welcome. Is there anything else I can assist you with today?
+CUSTOMER: No, that’s everything.
+AGENT: Lovely. Well, I hope the rest of your day goes well!
+CUSTOMER: Thanks, you too.
+AGENT: Goodbye now.
