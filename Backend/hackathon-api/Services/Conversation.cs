@@ -3,18 +3,26 @@ namespace hackathon_api.Services;
 public class Conversation : IConversation
 {
     public string Id { get; }
-    
+    public string Customer { get; }
+    public string Agent { get; }
+    public DateTime StartTime { get; set; } = DateTime.Now;
+    public string AgentType { get; }
+    public bool Flagged { get; set; }
+
     private readonly List<string> _lines;
-    public IReadOnlyList<string> Lines { get; }
+    public IReadOnlyList<string> Sentences { get; }
     
     private readonly List<IObserver<IReadOnlyList<string>>> _observers;
 
-    public Conversation(string id)
+    public Conversation(string id, string customer, string agent, string agentType)
     {
         Id = id;
+        Customer = customer;
+        Agent = agent;
+        AgentType = agentType;
         _lines = [];
         _observers = [];
-        Lines = _lines.AsReadOnly();
+        Sentences = _lines.AsReadOnly();
     }
     
     public IDisposable Subscribe(IObserver<IReadOnlyList<string>> observer)

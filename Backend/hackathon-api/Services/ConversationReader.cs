@@ -17,7 +17,7 @@ public class ConversationReader() : IConversationReader
     public async Task<string> LoadConversation(string id)
     {
         var newId = Guid.NewGuid().ToString();
-        var conversation = new Conversation(newId);
+        var conversation = new Conversation(newId, "customer", "agent", "human");
         var content = await File.ReadAllLinesAsync($"Data/{id}.txt");
         _conversations.Add(newId, conversation);
         

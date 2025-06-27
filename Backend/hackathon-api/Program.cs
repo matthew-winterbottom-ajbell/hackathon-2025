@@ -31,15 +31,30 @@ app.MapPost("/api/v1/conversations/debugcreate", async (DebugCreateRequest reque
 
 app.MapGet("/api/v1/conversations", (IConversationReader conversationReader) =>
 {
-    return conversationReader.GetConversations().Select(c => new ConversationListing(c.Id)).ToList();
+    return conversationReader.GetConversations().Select(c => new ConversationListing(
+        c.Id,
+        c.Customer,
+        c.Agent,
+        c.StartTime,
+        c.AgentType,
+        c.Flagged
+    )).ToList();
 });
 
 app.MapGet("/api/v1/conversations/{id}", (string id, IConversationReader conversationReader) =>
 {
     var conversation = conversationReader.GetConversation(id);
-    return conversation != null
-        ? Results.Ok(new ConversationResponse(string.Join('\n', conversation.Lines)))
-        : Results.NotFound();
+    if (conversation == null) return Results.NotFound();
+
+    return Results.Ok(new ConversationResponse(
+        conversation.Id,
+        conversation.Customer,
+        conversation.Agent,
+        conversation.StartTime,
+        conversation.AgentType,
+        conversation.Flagged,
+        conversation.Sentences.ToList())
+    );
 });
 
 app.MapHub<ConversationHub>("/api/v1/conversations/{id}/live")
@@ -48,8 +63,9 @@ app.MapHub<ConversationHub>("/api/v1/conversations/{id}/live")
 
 app.Run();
 
-record ConversationListing(string Id);
-
 record DebugCreateRequest(string FileId);
 record DebugCreateResponse(string Id);
-record ConversationResponse(string Content);
+
+record ConversationListing(string Id, string Customer, string Agent, DateTime StartTime, string AgentType, bool Flagged);
+record ConversationResponse(string Id, string Customer, string Agent, DateTime StartTime, string AgentType, bool Flagged, List<string> Sentences) :
+    ConversationListing(Id, Customer, Agent, StartTime, AgentType, Flagged);
