@@ -6,7 +6,7 @@ public class ConversationHub : Hub
 {
     public override async Task OnConnectedAsync()
     {
-        var id = Context.GetHttpContext()?.Request.Path.Value?.Split('/').Last();
+        var id = Context.GetHttpContext()?.Request.Path.Value?.Split('/')[^2];
         if (id != null)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, id);
