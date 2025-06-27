@@ -67,27 +67,43 @@ const Dashboard = () => {
         navigate(`/call/${conversation.id}`);
     };
 
+    // Card component with independent ticking for duration
+    const CallCard = ({ conversation }: { conversation: ConversationType }) => {
+        const [, setTick] = useState(0);
+
+        useEffect(() => {
+            const interval = setInterval(() => {
+                setTick(t => t + 1);
+            }, 1000);
+            return () => clearInterval(interval);
+        }, []);
+
+        return (
+            <button
+                type="button"
+                onClick={onClick(conversation)}
+                className={`hover: cursor-pointer flex flex-col w-auto h-50 space-y-2 border-2 rounded-2xl px-2 py-5 bg-gray-200 shadow-md transition-transform duration-200 transform hover:scale-105 ${
+                    conversation.flagged ? "border-red-500" : "border-white"
+                }`}
+                style={{overflow: 'hidden'}}
+            >
+                {conversation.flagged && (
+                    <div className="flex flex-col items-center mb-2">
+                        <span className="text-red-600 font-bold mr-2">⚠️ Suspicious</span>
+                        <span className="text-sm text-red-400">Click to review</span>
+                    </div>
+                )}
+                {conversation.agent && (
+                    <div className="font-semibold text-gray-700">Agent: {conversation.agent}</div>
+                )}
+                <div className=" text-gray-700">Caller: {conversation.customer}</div>
+                <div className="text-gray-700">Duration: {getTranspiredTimeInMinutes(conversation.startTime)}</div>
+            </button>
+        );
+    };
+
     const renderCallCard = (conversation: ConversationType) => (
-        <button
-            type="button"
-            onClick={onClick(conversation)}
-            className={`hover: cursor-pointer flex flex-col w-auto h-50 space-y-2 border-2 rounded-2xl px-2 py-5 bg-gray-200 shadow-md transition-transform duration-200 transform hover:scale-105 ${
-                conversation.flagged ? "border-red-500" : "border-white"
-            }`}
-            style={{overflow: 'hidden'}}
-        >
-            {conversation.flagged && (
-                <div className="flex flex-col items-center mb-2">
-                    <span className="text-red-600 font-bold mr-2">⚠️ Suspicious</span>
-                    <span className="text-sm text-red-400">Click to review</span>
-                </div>
-            )}
-            {conversation.agent && (
-                <div className="font-semibold text-gray-700">Agent: {conversation.agent}</div>
-            )}
-            <div className=" text-gray-700">Caller: {conversation.customer}</div>
-            <div className="text-gray-700">Duration: {getTranspiredTimeInMinutes(conversation.startTime)}</div>
-        </button>
+        <CallCard key={conversation.id} conversation={conversation} />
     );
 
     return (
