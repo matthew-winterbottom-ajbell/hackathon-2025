@@ -1,6 +1,6 @@
 namespace hackathon_api.Services;
 
-public class ConversationReader(INotificationService notificationService) : IConversationReader
+public class ConversationReader(INotificationService notificationService, IConversationAnalyzer conversationAnalyzer) : IConversationReader
 {
     private readonly Dictionary<string, Conversation> _conversations = new();
 
@@ -22,27 +22,22 @@ public class ConversationReader(INotificationService notificationService) : ICon
         _conversations.Add(newId, conversation);
         notificationService.SendNewConversation(conversation);
         
-        _ = Task.Run(() =>
+        _ = Task.Run(async () =>
         {
             foreach (var line in content)
             {
                 conversation.AddLine(line);
                 notificationService.SendNewMessage(newId, line);
                 
-                DateTime startTime = DateTime.Now;
+                var startTime = DateTime.Now;
 
-                var toFlag = Random.Shared.NextDouble() < 0.1;
+                var toFlag = await conversationAnalyzer.IsSuspicious(conversation);
                 if (toFlag)
                 {
                     conversation.Flagged = true;
                     notificationService.FlagConversation(conversation);
                     break;
                 }
-                
-                TimeSpan timePassed = startTime - DateTime.Now;
-                var waitTime = (80 * line.Length) - timePassed.TotalMilliseconds;
-                
-                if (waitTime > 0) Thread.Sleep((int)waitTime);
             }
 
             conversation.Finish();

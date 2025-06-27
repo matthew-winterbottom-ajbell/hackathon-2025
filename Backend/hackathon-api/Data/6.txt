@@ -1,0 +1,10 @@
+Agent: Good afternoon, this is Sarah. How can I assist you today?
+Customer: Hi, yeah, I need to move some funds—about $250,000—from my account to a new offshore account I just opened. Can we do that today?
+Agent: I can help you with that, but I’ll need to verify a few details first. May I ask the purpose of the transfer?
+Customer: It’s just... personal. I’d rather not say. It’s urgent though. I need it done before the end of the day.
+Agent: Understood. I’ll still need to document the reason for compliance purposes. Is this related to an investment opportunity?
+Customer: Let’s just say it’s for “asset protection.” I’ve been advised not to leave a paper trail, so please don’t include too much detail in the notes.
+Agent: I’m sorry, but we’re required to report large transfers and document them properly.
+Customer: Look, I’ve done this before with another rep. Just mark it as a “family matter” or something. I’ll even pay a little extra if you can make this go through quietly.
+Agent: I’m afraid I can’t proceed without proper documentation. Would you like me to escalate this to a manager?
+Customer: No, no, don’t do that. Just forget I called. I’ll figure something else out.

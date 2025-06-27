@@ -10,6 +10,7 @@ builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<INotificationService, NotificationService>();
 builder.Services.AddSingleton<IConversationReader, ConversationReader>();
+builder.Services.AddTransient<IConversationAnalyzer, ConversationAnalyzer>();
 
 builder.Services.AddCors(options =>
 {
