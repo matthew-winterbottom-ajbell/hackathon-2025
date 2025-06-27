@@ -20,8 +20,11 @@ const Conversation = () => {
     const [liveSentences, setLiveSentences] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
     const lastMessageTimeRef = useRef<number | null>(null);
-    const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const stopLoadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const loadingTimeoutRef = useRef<number | null>(null);
+    const stopLoadingTimeoutRef = useRef<number | null>(null);
+
+    // For ticking duration
+    const [, setTick] = useState(0);
 
     // Fetch conversation data from API
     useEffect(() => {
@@ -43,11 +46,8 @@ const Conversation = () => {
 
     // Skeleton loading logic
     useEffect(() => {
-        // Start with loading skeleton
         setLoading(true);
         lastMessageTimeRef.current = Date.now();
-
-        // If no message comes in 10s, stop loading
         stopLoadingTimeoutRef.current = setTimeout(() => {
             setLoading(false);
         }, 10000);
@@ -63,24 +63,30 @@ const Conversation = () => {
             setLiveSentences(prev => [...prev, message]);
             setLoading(false);
 
-            // Clear previous timeouts
             if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
             if (stopLoadingTimeoutRef.current) clearTimeout(stopLoadingTimeoutRef.current);
 
-            // Set last message time
             lastMessageTimeRef.current = Date.now();
 
-            // After 1s, show skeleton again (unless stopped)
             loadingTimeoutRef.current = setTimeout(() => {
                 setLoading(true);
-
-                // After 10s of no new message, stop skeleton
                 stopLoadingTimeoutRef.current = setTimeout(() => {
                     setLoading(false);
                 }, 10000);
             }, 1000);
         }
     });
+
+    // Ticking effect for duration
+    useEffect(() => {
+        if (!conversation?.startTime) return;
+
+        const interval = setInterval(() => {
+            setTick(t => t + 1);
+        }, 1000);
+        return () => clearInterval(interval);
+
+    }, [conversation?.startTime]);
 
     if (!id) {
         return (
@@ -108,8 +114,10 @@ const Conversation = () => {
                         <InformationRow keyString={"Call ID:"} value={conversation.id}/>
                         <InformationRow keyString="Customer:" value={conversation.customer}/>
                         <InformationRow keyString="Agent:" value={conversation.agent ?? ""}/>
-                        <InformationRow keyString="Duration:"
-                                        value={getTranspiredTimeInMinutes(conversation.startTime)}/>
+                        <InformationRow
+                            keyString="Duration:"
+                            value={getTranspiredTimeInMinutes(conversation.startTime)}
+                        />
                     </div>
                     {/* Add more details here if your Call type expands */}
                     <div className="flex flex-col gap-4 justify-center mt-8">
