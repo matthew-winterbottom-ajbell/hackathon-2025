@@ -1,6 +1,6 @@
 import {BrowserRouter, Link, Route, Routes, useLocation} from 'react-router-dom';
 import './App.css'
-import Home from './pages/home';
+import Dashboard from './pages/dashboard.tsx';
 import Conversation from "./pages/conversation.tsx";
 import BotConversation from "./pages/botConversation.tsx";
 import ajbellLogo from './assets/ajbell-logo.png';
@@ -31,7 +31,7 @@ function App() {
             </Link>
             <Breadcrumbs />
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Dashboard />} />
                 <Route path="/call/:id" element={<Conversation />} />
                 <Route path="/chat/:id" element={<BotConversation />} />
             </Routes>

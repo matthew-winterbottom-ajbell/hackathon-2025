@@ -1,11 +1,47 @@
-import { useParams } from "react-router-dom";
-import { conversations } from "../data/callList.ts";
+import {useParams} from "react-router-dom";
 import {getTranspiredTimeInMinutes} from "../helpers/time.ts";
 import Button from "../components/Button.tsx";
 import InformationRow from "../components/InformationRow.tsx";
+import {useState, useEffect} from "react";
+import {useConversationHub} from "../hooks/useConversationHub.tsx";
+import type {ConversationType} from "../types/conversation.ts";
 
 const Conversation = () => {
-    const { id } = useParams();
+    const {id} = useParams();
+
+    const [conversation, setConversation] = useState<ConversationType>();
+    const [liveSentences, setLiveSentences] = useState<string[]>([]);
+
+    // Fetch conversation data from API
+    useEffect(() => {
+        if (!id) return;
+        fetch(`http://localhost:5044/api/v1/conversations/${id}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Failed to fetch conversation");
+                return res.json();
+            })
+            .then(data => setConversation({
+                ...data,
+                startTime: new Date(data.startTime),
+            }))
+            .catch(err => {
+                console.error(err);
+                setConversation(undefined);
+            });
+    }, [id]);
+
+    useConversationHub(id, (message: string) => {
+
+        if (message) {
+            setLiveSentences(prev => {
+
+                return [
+                    ...prev,
+                    message
+                ]
+            });
+        }
+    });
 
     if (!id) {
         return (
@@ -14,8 +50,6 @@ const Conversation = () => {
             </div>
         )
     }
-
-    const conversation = conversations.find(c => c.id === id);
 
     if (!conversation) {
         return (
@@ -29,12 +63,14 @@ const Conversation = () => {
         <div className="max-w-3xl mx-auto mt-10">
             <h1 className="text-3xl font-bold mb-6 text-center text-white">Agent call details</h1>
             <div className="flex flex-row space-x-5">
-                <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 self-start w-80 flex-shrink-0">
+                <div
+                    className="bg-slate-100 p-8 rounded-2xl shadow-lg border border-slate-100 self-start w-80 flex-shrink-0">
                     <div className="mb-4 flex flex-col gap-2">
-                        <InformationRow keyString={"Call ID:"} value={conversation.id} />
-                        <InformationRow keyString="Customer:" value={conversation.customer} />
-                        <InformationRow keyString="Agent:" value={conversation.agent ?? ""} />
-                        <InformationRow keyString="Duration:" value={getTranspiredTimeInMinutes(conversation.startTime)} />
+                        <InformationRow keyString={"Call ID:"} value={conversation.id}/>
+                        <InformationRow keyString="Customer:" value={conversation.customer}/>
+                        <InformationRow keyString="Agent:" value={conversation.agent ?? ""}/>
+                        <InformationRow keyString="Duration:"
+                                        value={getTranspiredTimeInMinutes(conversation.startTime)}/>
                     </div>
                     {/* Add more details here if your Call type expands */}
                     <div className="flex flex-col gap-4 justify-center mt-8">
@@ -50,14 +86,15 @@ const Conversation = () => {
                     </div>
                 </div>
                 <div>
-                    <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 overflow-y-auto max-h-[30rem]">
+                    <div
+                        className="bg-slate-100 p-8 rounded-2xl shadow-lg border border-slate-100 overflow-y-auto max-h-[30rem]">
                         <div className="mb-4 flex flex-col gap-2">
-                            {conversation.sentences.map(sentence => (
-                                <InformationRow
-                                    key={sentence.text}
-                                    keyString={sentence.from}
-                                    value={sentence.text}
-                                />
+                            {conversation.sentences?.map(sentence => (
+                                    <div className="text-gray-700">{sentence}</div>
+                                )
+                            )}
+                            {liveSentences.map(sentence => (
+                                <div className="text-gray-700">{sentence}</div>
                             ))}
                         </div>
                     </div>
