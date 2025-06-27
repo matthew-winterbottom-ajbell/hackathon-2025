@@ -37,7 +37,7 @@ const Conversation = () => {
                         <InformationRow keyString="Duration:" value={getTranspiredTimeInMinutes(conversation.startTime)} />
                     </div>
                     {/* Add more details here if your Call type expands */}
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                    <div className="flex flex-col gap-4 justify-center mt-8">
                         <Button>
                             End call
                         </Button>

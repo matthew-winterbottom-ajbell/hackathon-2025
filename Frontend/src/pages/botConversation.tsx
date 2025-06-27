@@ -28,25 +28,39 @@ const BotConversation = () => {
     }
 
     return (
-        <div className="max-w-xl mx-auto mt-10">
+        <div className="max-w-3xl mx-auto mt-10">
             <h1 className="text-3xl font-bold mb-6 text-center text-white">Bot chat details</h1>
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
-                <div className="mb-4 flex flex-col gap-2">
-                    <InformationRow keyString={"Call ID:"} value={conversation.id} />
-                    <InformationRow keyString="Customer:" value={conversation.customer} />
-                    <InformationRow keyString="Duration:" value={getTranspiredTimeInMinutes(conversation.startTime)} />
+            <div className="flex flex-row space-x-5">
+                <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 self-start w-80 flex-shrink-0">
+                    <div className="mb-4 flex flex-col gap-2">
+                        <InformationRow keyString={"Call ID:"} value={conversation.id} />
+                        <InformationRow keyString="Customer:" value={conversation.customer} />
+                        <InformationRow keyString="Duration:" value={getTranspiredTimeInMinutes(conversation.startTime)} />
+                    </div>
+                    <div className="flex flex-col gap-4 justify-center mt-8">
+                        <Button>
+                            End call
+                        </Button>
+                        <Button>
+                            Listen-in on call
+                        </Button>
+                        <Button>
+                            Take over call
+                        </Button>
+                    </div>
                 </div>
-                {/* Add more details here if your Call type expands */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                    <Button>
-                        End call
-                    </Button>
-                    <Button>
-                        Listen-in on call
-                    </Button>
-                    <Button>
-                        Take over call
-                    </Button>
+                <div>
+                    <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 overflow-y-auto max-h-[30rem]">
+                        <div className="mb-4 flex flex-col gap-2">
+                            {conversation.sentences.map(sentence => (
+                                <InformationRow
+                                    key={sentence.text}
+                                    keyString={sentence.from}
+                                    value={sentence.text}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
