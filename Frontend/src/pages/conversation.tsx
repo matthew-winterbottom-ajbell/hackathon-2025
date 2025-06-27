@@ -4,7 +4,7 @@ import Button from "../components/Button.tsx";
 import InformationRow from "../components/InformationRow.tsx";
 import {useState, useEffect, useRef} from "react";
 import {useConversationHub} from "../hooks/useConversationHub.tsx";
-import type {ConversationType} from "../types/conversation.ts";
+import type { ConversationType } from "../types/conversation.ts";
 
 // Skeleton loader component
 const SkeletonSentence = () => (
